@@ -1,0 +1,52 @@
+spring:
+  application:
+    name: taskflow
+
+  # ── Banco de Dados ──────────────────────────
+  datasource:
+    # ${VAR:default} → usa variável de ambiente se existir, senão usa o default
+    # Em dev local: postgres roda no Docker em localhost
+    # Em Docker Compose full: usa o hostname "postgres" (nome do service)
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/taskflow}
+    username: ${SPRING_DATASOURCE_USERNAME:taskflow}
+    password: ${SPRING_DATASOURCE_PASSWORD:taskflow123}
+    driver-class-name: org.postgresql.Driver
+
+  # ── JPA / Hibernate ─────────────────────────
+  jpa:
+    hibernate:
+      ddl-auto: update   # cria/altera tabelas automaticamente (ótimo para aprender)
+    show-sql: true        # mostra as queries SQL no console
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  # ── RabbitMQ ────────────────────────────────
+  rabbitmq:
+    host: ${SPRING_RABBITMQ_HOST:localhost}
+    port: 5672
+    username: ${SPRING_RABBITMQ_USERNAME:taskflow}
+    password: ${SPRING_RABBITMQ_PASSWORD:taskflow123}
+
+# ── JWT ─────────────────────────────────────
+jwt:
+  secret: ${JWT_SECRET:taskflow-super-secret-key-para-aprendizado-minimo-256bits}
+  expiration: 86400000  # 24 horas em ms
+
+# ── Servidor ────────────────────────────────
+server:
+  port: 8080
+
+# ── Actuator ────────────────────────────────
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+# ── Log ─────────────────────────────────────
+logging:
+  level:
+    com.taskflow: DEBUG
+    org.springframework.security: DEBUG

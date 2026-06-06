@@ -1,0 +1,107 @@
+version: '3.8'
+
+# ─────────────────────────────────────────────
+# TaskFlow — Docker Compose
+# Sobe tudo com: docker compose up -d
+# ─────────────────────────────────────────────
+
+services:
+
+  # ── Banco de Dados ──────────────────────────
+  postgres:
+    image: postgres:16-alpine
+    container_name: taskflow-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: taskflow
+      POSTGRES_USER: taskflow
+      POSTGRES_PASSWORD: taskflow123
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - taskflow-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U taskflow -d taskflow"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── Interface visual para o banco ───────────
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: taskflow-pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@taskflow.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+    networks:
+      - taskflow-net
+
+  # ── Mensageria (extra — aprender RabbitMQ) ─
+  rabbitmq:
+    image: rabbitmq:3.12-management-alpine
+    container_name: taskflow-rabbitmq
+    restart: unless-stopped
+    environment:
+      RABBITMQ_DEFAULT_USER: taskflow
+      RABBITMQ_DEFAULT_PASS: taskflow123
+    ports:
+      - "5672:5672"    # porta AMQP (Spring se conecta aqui)
+      - "15672:15672"  # painel web de monitoramento
+    networks:
+      - taskflow-net
+
+  # ── Backend Spring Boot ──────────────────────
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: taskflow-backend
+    restart: unless-stopped
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/taskflow
+      SPRING_DATASOURCE_USERNAME: taskflow
+      SPRING_DATASOURCE_PASSWORD: taskflow123
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_USERNAME: taskflow
+      SPRING_RABBITMQ_PASSWORD: taskflow123
+      JWT_SECRET: taskflow-super-secret-key-para-aprendizado-minimo-256bits
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - taskflow-net
+    profiles:
+      - full  # só sobe com: docker compose --profile full up
+
+  # ── Frontend React ───────────────────────────
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: taskflow-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - taskflow-net
+    profiles:
+      - full  # só sobe com: docker compose --profile full up
+
+# ─────────────────────────────────────────────
+volumes:
+  postgres_data:
+
+networks:
+  taskflow-net:
+    driver: bridge
