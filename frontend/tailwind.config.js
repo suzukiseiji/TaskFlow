@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: 'class',
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -10,14 +11,22 @@ export default {
         primary: {
           50: '#eff6ff',
           100: '#dbeafe',
-          500: '#3b82f6',
-          600: '#2563eb',
+          400: 'rgb(var(--color-primary-400) / <alpha-value>)',
+          500: 'rgb(var(--color-primary-500) / <alpha-value>)',
+          600: 'rgb(var(--color-primary-600) / <alpha-value>)',
           900: '#1e3a8a',
         },
-        dark: {
-          bg: '#0f172a',
-          card: '#1e293b',
-          border: '#334155'
+        secondary: {
+          400: 'rgb(var(--color-secondary-400) / <alpha-value>)',
+          500: 'rgb(var(--color-secondary-500) / <alpha-value>)',
+          600: 'rgb(var(--color-secondary-600) / <alpha-value>)',
+        },
+        theme: {
+          base: 'rgb(var(--color-bg-base) / <alpha-value>)',
+          card: 'rgb(var(--color-bg-card) / <alpha-value>)',
+          border: 'rgb(var(--color-border) / <alpha-value>)',
+          main: 'rgb(var(--color-text-main) / <alpha-value>)',
+          muted: 'rgb(var(--color-text-muted) / <alpha-value>)'
         }
       },
       fontFamily: {

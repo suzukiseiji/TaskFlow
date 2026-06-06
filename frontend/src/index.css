@@ -3,21 +3,100 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --color-bg-base: 241 245 249; /* fundo claro slate-100 */
+    --color-bg-card: 255 255 255;
+    --color-border: 226 232 240;
+    --color-text-main: 15 23 42;
+    --color-text-muted: 100 116 139;
+
+    /* Cor Primária Azul (Default) */
+    --color-primary-400: 96 165 250;
+    --color-primary-500: 59 130 246;
+    --color-primary-600: 37 99 235;
+
+    /* Cor Secundária Indigo (Default) */
+    --color-secondary-400: 129 140 248;
+    --color-secondary-500: 99 102 241;
+    --color-secondary-600: 79 70 229;
+  }
+
+  .dark {
+    --color-bg-base: 15 23 42; /* fundo escuro original */
+    --color-bg-card: 30 41 59;
+    --color-border: 51 65 85;
+    --color-text-main: 248 250 252;
+    --color-text-muted: 148 163 184;
+
+    /* Cor Primária Azul (Default) */
+    --color-primary-400: 96 165 250;
+    --color-primary-500: 59 130 246;
+    --color-primary-600: 37 99 235;
+
+    /* Cor Secundária Indigo (Default) */
+    --color-secondary-400: 129 140 248;
+    --color-secondary-500: 99 102 241;
+    --color-secondary-600: 79 70 229;
+  }
+
+  /* --- DRACULA THEME FAMILY --- */
+  .dracula {
+    /* Dracula Light */
+    --color-bg-base: 248 248 242; /* #f8f8f2 */
+    --color-bg-card: 255 255 255; /* #ffffff */
+    --color-border: 226 232 240;  /* #e2e8f0 */
+    --color-text-main: 40 42 54;  /* #282a36 */
+    --color-text-muted: 98 114 164; /* #6272a4 */
+
+    /* Cor Primária Rosa Pastel (Dracula Pink #ff79c6) */
+    --color-primary-400: 255 153 211;
+    --color-primary-500: 255 121 198;
+    --color-primary-600: 226 103 175;
+
+    /* Cor Secundária Roxo Pastel (Dracula Purple #bd93f9) */
+    --color-secondary-400: 204 167 255;
+    --color-secondary-500: 189 147 249;
+    --color-secondary-600: 157 104 240;
+  }
+
+  .dracula.dark {
+    /* Dracula Dark */
+    --color-bg-base: 40 42 54; /* #282a36 */
+    --color-bg-card: 68 71 90; /* #44475a */
+    --color-border: 98 114 164; /* #6272a4 */
+    --color-text-main: 248 248 242; /* #f8f8f2 */
+    --color-text-muted: 186 190 205; /* cor suave para muted */
+
+    /* Cor Primária Rosa Pastel (Dracula Pink #ff79c6) */
+    --color-primary-400: 255 153 211;
+    --color-primary-500: 255 121 198;
+    --color-primary-600: 226 103 175;
+
+    /* Cor Secundária Roxo Pastel (Dracula Purple #bd93f9) */
+    --color-secondary-400: 204 167 255;
+    --color-secondary-500: 189 147 249;
+    --color-secondary-600: 157 104 240;
+  }
+
   body {
-    @apply bg-dark-bg text-gray-100;
+    @apply bg-theme-base text-theme-main transition-colors duration-300;
   }
 }
 
 @layer components {
   .glass-panel {
-    @apply bg-dark-card/60 backdrop-blur-md border border-dark-border/50 shadow-xl rounded-2xl;
+    @apply bg-theme-card/80 backdrop-blur-md border border-theme-border shadow-xl rounded-2xl;
   }
   
   .input-field {
-    @apply w-full bg-dark-bg border border-dark-border rounded-lg px-4 py-3 text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all;
+    @apply w-full bg-theme-base border border-theme-border rounded-lg px-4 py-3 text-theme-main placeholder-theme-muted focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-colors duration-200;
   }
   
   .btn-primary {
     @apply bg-primary-600 hover:bg-primary-500 text-white font-medium py-3 rounded-lg shadow-lg shadow-primary-500/30 transition-all active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2;
+  }
+
+  .btn-secondary {
+    @apply bg-secondary-600 hover:bg-secondary-500 text-white font-medium py-3 rounded-lg shadow-lg shadow-secondary-500/30 transition-all active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2;
   }
 }

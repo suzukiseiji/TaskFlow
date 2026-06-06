@@ -51,13 +51,13 @@ export default function Register() {
     <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden bg-dark-bg">
       {/* Efeitos de fundo (Círculos decorativos) */}
       <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-primary-600/20 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-500/10 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary-500/10 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="glass-panel w-full max-w-md p-8 relative z-10">
         
         {/* Cabeçalho */}
         <div className="flex flex-col items-center mb-8">
-          <div className="w-14 h-14 bg-gradient-to-br from-primary-500 to-blue-400 rounded-2xl flex items-center justify-center shadow-lg shadow-primary-500/20 mb-4 transform transition-transform hover:scale-105">
+          <div className="w-14 h-14 bg-gradient-to-br from-primary-500 to-primary-400 rounded-2xl flex items-center justify-center shadow-lg shadow-primary-500/20 mb-4 transform transition-transform hover:scale-105">
             <LayoutDashboard size={28} className="text-white" />
           </div>
           <h2 className="text-3xl font-bold text-white tracking-tight">Criar Conta</h2>
